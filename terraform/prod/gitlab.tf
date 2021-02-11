@@ -11,7 +11,7 @@ resource "gitlab_group" "group" {
 resource "gitlab_deploy_token" "image-deploy-token" {
   group = gitlab_group.group.path
   name = "image-deploy-token"
-  expires_at = "2100-01-01T00:00:00.000Z"
+  expires_at = "2100-01-01T00:00:00Z"
   scopes = ["read_registry"]
 }
 
@@ -20,7 +20,8 @@ resource "gitlab_group_cluster" "group_cluster" {
   kubernetes_api_url = module.kubernetes-cluster.external_v4_endpoint
   kubernetes_token = module.kubernetes-platform.gitlab-token
   name = module.kubernetes-cluster.cluster_name
-  kubernetes_ca_cert = module.kubernetes-cluster.cluster_ca_certificate
+  //https://github.com/gitlabhq/terraform-provider-gitlab/issues/256
+  kubernetes_ca_cert = trimspace(module.kubernetes-cluster.cluster_ca_certificate)
   managed = false
 }
 
