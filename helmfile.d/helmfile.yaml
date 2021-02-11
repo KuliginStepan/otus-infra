@@ -1,0 +1,75 @@
+templates:
+  default: &default
+    missingFileHandler: Warn
+    wait: true
+    values:
+      - ../config/default/{{`{{ .Release.Name }}`}}.yaml
+      - ../config/default/{{`{{ .Release.Name }}`}}.yaml.gotmpl
+      - ../config/{{`{{ .Environment.Name }}`}}/{{`{{ .Release.Name }}`}}.yaml
+      - ../config/{{`{{ .Environment.Name }}`}}/{{`{{ .Release.Name }}`}}.yaml.gotmpl
+
+repositories:
+  - name: jetstack
+    url: https://charts.jetstack.io
+  - name: kubernetes-dashboard
+    url: https://kubernetes.github.io/dashboard/
+  - name: gitlab
+    url: https://charts.gitlab.io
+  - name: jaegertracing
+    url: https://jaegertracing.github.io/helm-charts
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts
+  - name: stable
+    url: https://charts.helm.sh/stable
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+  - name: traefik
+    url: https://helm.traefik.io/traefik
+
+releases:
+  - name: cert-manager
+    chart: jetstack/cert-manager
+    namespace: cert-manager
+    <<: *default
+  - name: acme
+    chart: ../charts/acme
+    disableValidation: true
+    namespace: cert-manager
+    needs:
+      - cert-manager/cert-manager
+    <<: *default
+  - name: dashboard
+    chart: kubernetes-dashboard/kubernetes-dashboard
+    namespace: kube-system
+    <<: *default
+  - name: gitlab-runner
+    chart: gitlab/gitlab-runner
+    namespace: gitlab-runner
+    <<: *default
+  - name: jaeger-operator
+    chart: jaegertracing/jaeger-operator
+    namespace: tracing
+    disableValidation: true
+    <<: *default
+  - name: kube-prometheus-stack
+    chart: prometheus-community/kube-prometheus-stack
+    namespace: monitoring
+    disableValidation: true
+    <<: *default
+  - name: efk-stack
+    chart: ../charts/efk-stack
+    namespace: logging
+    <<: *default
+  - name: pritunl
+    chart: ../charts/pritunl
+    namespace: vpn
+    disableValidation: true
+    <<: *default
+  - name: traefik
+    chart: traefik/traefik
+    namespace: ingress
+    <<: *default
+  - name: rabbitmq
+    chart: bitnami/rabbitmq
+    namespace: rabbitmq
+    <<: *default

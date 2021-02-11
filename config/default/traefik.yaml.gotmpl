@@ -1,0 +1,19 @@
+ingressClass:
+  enabled: true
+logs:
+  general:
+    level: INFO
+  access:
+    enabled: true
+deployment:
+  annotations:
+    sidecar.jaegertracing.io/inject: "true"
+service:
+  spec:
+    loadBalancerIP: {{ .Values | get "ingress.loadBalancerIP" "" }}
+additionalArguments:
+  - "--metrics.prometheus=true"
+  - "--tracing=true"
+  - "--tracing.jaeger=true"
+  - "--accesslog.format=json"
+  - "--log.format=json"

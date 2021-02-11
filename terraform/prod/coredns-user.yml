@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-user
+  namespace: kube-system
+data:
+  Corefile: |
+    cluster.prod:53 {
+      errors
+      rewrite stop {
+        name regex (.*)\.cluster\.prod {1}.cluster.local
+        answer name (.*)\.cluster\.local {1}.cluster.prod
+      }
+      forward . 127.0.0.1:53
+      reload
+    }

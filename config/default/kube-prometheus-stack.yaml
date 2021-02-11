@@ -1,0 +1,32 @@
+alertmanager:
+  service:
+    port: 80
+prometheus:
+  service:
+    port: 80
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorNamespaceSelector:
+      matchExpressions:
+        - key: fake-label
+          operator: DoesNotExist
+          values: []
+  additionalServiceMonitors:
+    - name: traefik
+      selector:
+        matchLabels:
+          app.kubernetes.io/name: "traefik"
+      namespaceSelector:
+        matchNames:
+          - ingress
+      endpoints:
+        - targetPort: traefik
+
+kubeControllerManager:
+  enabled: false
+kubeEtcd:
+  enabled: false
+kubeScheduler:
+  enabled: false
+kubeProxy:
+  enabled: false

@@ -1,0 +1,5 @@
+gitlabUrl: https://gitlab.com
+logFormat: json
+runnerRegistrationToken: {{ .Values | get "gitlab.runnerRegistrationToken" "" }}
+rbac:
+  create: true

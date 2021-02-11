@@ -1,0 +1,14 @@
+jaeger:
+  create: true
+  spec:
+    strategy: production
+    ingress:
+      enabled: false
+    storage:
+      type: elasticsearch
+      options:
+        es:
+          server-urls: http://efk-stack-elasticsearch-data.logging:9200
+
+rbac:
+  clusterRole: true

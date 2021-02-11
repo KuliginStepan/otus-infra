@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "pritunl.fullname" . }}
+  labels:
+    {{- include "pritunl.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  {{- if .Values.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.service.loadBalancerIP }}
+  {{- end }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: https
+      protocol: TCP
+      name: https
+    {{- range $i, $e := .Values.pritunl.openvpn.ports }}
+    - port: {{ . }}
+      name: {{ print "openvpn-" $i }}
+      protocol: TCP
+    {{- end }}
+  selector:
+    {{- include "pritunl.selectorLabels" . | nindent 4 }}

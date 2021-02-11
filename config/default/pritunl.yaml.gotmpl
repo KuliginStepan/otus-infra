@@ -1,0 +1,4 @@
+pritunl:
+  mongodbUri: {{ .Values | get "vpn.mongodbUri" "" }}
+service:
+  loadBalancerIP: {{ .Values | get "vpn.publicIp" "" }}

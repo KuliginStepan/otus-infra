@@ -1,0 +1,20 @@
+global:
+  kibanaEnabled: true
+
+elasticsearch:
+  kibana:
+    service:
+      port: 80
+
+fluentd:
+  metrics:
+    enabled: true
+    service:
+      port: 24231
+
+  aggregator:
+    port: 24224
+    configMap: elasticsearch-fluentd-config
+
+  forwarder:
+    configMap: efk-stack-forwarder-cm

@@ -1,0 +1,8 @@
+protocolHttp: true
+service:
+  externalPort: 80
+extraArgs:
+ - --enable-skip-login
+ - --enable-insecure-login
+rbac:
+  clusterReadOnlyRole: true

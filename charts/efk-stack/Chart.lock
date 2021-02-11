@@ -1,0 +1,9 @@
+dependencies:
+- name: elasticsearch
+  repository: https://charts.bitnami.com/bitnami
+  version: 13.0.5
+- name: fluentd
+  repository: https://charts.bitnami.com/bitnami
+  version: 3.2.1
+digest: sha256:a01e200c0645160ef6f4ca109364305cb30facdb8edc2434463126e60d0f08c4
+generated: "2021-01-01T12:43:28.816915+03:00"
